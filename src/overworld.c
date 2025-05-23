@@ -58,6 +58,7 @@
 #include "task.h"
 #include "tileset_anims.h"
 #include "time_events.h"
+#include "timer.h"
 #include "trainer_hill.h"
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
@@ -370,6 +371,7 @@ void DoWhiteOut(void)
     if (B_WHITEOUT_MONEY == GEN_3)
         SetMoney(&gSaveBlock1Ptr->money, GetMoney(&gSaveBlock1Ptr->money) / 2);
     HealPlayerParty();
+    DestroyTimer();
     Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();
     WarpIntoMap();
@@ -2033,6 +2035,11 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
             (*state)++;
         break;
     case 13:
+        if (FlagGet(FLAG_TIMER))
+            InitTimer();
+        (*state)++;
+        break;
+    case 14:
         return TRUE;
     }
 
@@ -2065,6 +2072,11 @@ static bool32 ReturnToFieldLocal(u8 *state)
             (*state)++;
         break;
     case 3:
+        if (FlagGet(FLAG_TIMER))
+            InitTimer();
+        (*state)++;
+        break;
+    case 4:
         return TRUE;
     }
 

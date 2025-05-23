@@ -3140,3 +3140,19 @@ void Script_EndTrainerCanSeeIf(struct ScriptContext *ctx)
     if (ctx->breakOnTrainerBattle && sScriptConditionTable[condition][ctx->comparisonResult] == 1)
         StopScript(ctx);
 }
+
+bool8 ScrCmd_preparetimer(struct ScriptContext *ctx)
+{
+    u16 value = ScriptReadHalfword(ctx);
+    u8 isCountdown = ScriptReadByte(ctx);
+    u8 useAutomaticPause = ScriptReadByte(ctx);
+    const u8 *scriptPtr = (const u8 *)ScriptReadWord(ctx);
+    
+    gSpecialVar_0x8000 = value;
+    gSpecialVar_0x8001 = isCountdown;
+    gSpecialVar_0x8002 = useAutomaticPause;
+    
+    gSaveBlock2Ptr->timerScriptPtr = scriptPtr;
+    
+    return FALSE;
+}
