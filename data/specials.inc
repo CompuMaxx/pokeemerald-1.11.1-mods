@@ -563,3 +563,7 @@ gSpecials::
 	def_special UseBlankMessageToCancelPokemonPic
 	def_special EnterCode
 	def_special GetCodeFeedback
+	def_special StartTimer
+	def_special StopTimer
+	def_special PauseTimer
+	def_special ResumeTimer

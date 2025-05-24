@@ -251,7 +251,19 @@ LittlerootTown_EventScript_FatMan::
 	end
 
 LittlerootTown_EventScript_Boy::
-	msgbox LittlerootTown_Text_BirchSpendsDaysInLab, MSGBOX_NPC
+@   msgbox LittlerootTown_Text_BirchSpendsDaysInLab, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut, MSGBOX_DEFAULT
+    preparetimer 30, TRUE, FALSE, LittlerootTown_EventScript_EndTimer
+	special StartTimer
+	release
+	end
+
+LittlerootTown_EventScript_EndTimer::
+	lock
+	msgbox LittlerootTown_Text_TownSign, MSGBOX_DEFAULT
+	release
 	end
 
 LittlerootTown_EventScript_Twin::

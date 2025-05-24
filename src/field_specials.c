@@ -46,6 +46,7 @@
 #include "task.h"
 #include "text.h"
 #include "tilesets.h"
+#include "timer.h"
 #include "tv.h"
 #include "wallclock.h"
 #include "window.h"
@@ -4359,3 +4360,33 @@ void GetCodeFeedback(void)
     else
         gSpecialVar_Result = 0;
 }
+
+void StartTimer(void)
+{
+    InitTimer();
+}
+
+void StopTimer(void)
+{
+    DestroyTimer();
+}
+
+#define tIsTimerPaused data[10]
+
+void PauseTimer(void)
+{  
+    u8 taskId = FindTaskIdByFunc(TimerMainTask);
+    
+    if (taskId != TASK_NONE)
+        gTasks[taskId].tIsTimerPaused = TRUE;
+}
+
+void ResumeTimer(void)
+{
+    u8 taskId = FindTaskIdByFunc(TimerMainTask);
+    
+    if (taskId != TASK_NONE)
+        gTasks[taskId].tIsTimerPaused = FALSE;
+}
+
+#undef tIsTimerPaused

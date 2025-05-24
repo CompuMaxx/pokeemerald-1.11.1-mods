@@ -1877,6 +1877,18 @@
 	_dynmultichoice \left, \top, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \callbacks, NULL
 	.endm
 
+	@ Initializes the required variables for the StartTimer special command.
+	@ When useAutomaticPause=FALSE, manual pause management is required via 
+	@ PauseTimer/ResumeTimer specials. When TRUE, the timer automatically 
+	@ suspends during script execution.
+	.macro preparetimer value:req, isCountdown:req, useAutomaticPause:req, scriptPtr:req
+	.byte SCR_OP_PREPARETIMER
+	.2byte \value
+	.byte \isCountdown
+	.byte \useAutomaticPause
+	.4byte \scriptPtr
+	.endm
+
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req
