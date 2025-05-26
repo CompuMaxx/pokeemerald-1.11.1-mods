@@ -49,6 +49,7 @@
 #include "string_util.h"
 #include "text.h"
 #include "text_window.h"
+#include "timer.h"
 #include "trainer_see.h"
 #include "tv.h"
 #include "window.h"
@@ -3141,7 +3142,7 @@ void Script_EndTrainerCanSeeIf(struct ScriptContext *ctx)
         StopScript(ctx);
 }
 
-bool8 ScrCmd_preparetimer(struct ScriptContext *ctx)
+bool8 ScrCmd_inittimer(struct ScriptContext *ctx)
 {
     u16 value = ScriptReadHalfword(ctx);
     u8 isCountdown = ScriptReadByte(ctx);
@@ -3151,8 +3152,8 @@ bool8 ScrCmd_preparetimer(struct ScriptContext *ctx)
     gSpecialVar_0x8000 = value;
     gSpecialVar_0x8001 = isCountdown;
     gSpecialVar_0x8002 = useAutomaticPause;
-    
     gSaveBlock2Ptr->timerScriptPtr = scriptPtr;
+    InitTimer();
     
     return FALSE;
 }

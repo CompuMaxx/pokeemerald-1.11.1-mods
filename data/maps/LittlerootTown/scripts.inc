@@ -255,8 +255,7 @@ LittlerootTown_EventScript_Boy::
 	lock
 	faceplayer
 	msgbox LittlerootTown_Text_IfYouGoInGrassPokemonWillJumpOut, MSGBOX_DEFAULT
-    preparetimer 30, TRUE, FALSE, LittlerootTown_EventScript_EndTimer
-	special StartTimer
+	inittimer 30, TRUE, FALSE, LittlerootTown_EventScript_EndTimer
 	release
 	end
 
