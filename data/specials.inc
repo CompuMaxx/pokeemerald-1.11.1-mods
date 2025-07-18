@@ -567,3 +567,4 @@ gSpecials::
 	def_special StopTimer
 	def_special PauseTimer
 	def_special ResumeTimer
+	def_special HideTimer

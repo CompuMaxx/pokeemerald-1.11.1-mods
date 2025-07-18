@@ -17,6 +17,7 @@
 #include "battle_debug.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
+#include "timer.h"
 #include "constants/abilities.h"
 #include "constants/game_stat.h"
 #include "constants/item.h"
@@ -421,6 +422,7 @@ void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm = TRUE;
 
+    HideTimer();
     ZeroEnemyPartyMons();
 
     switch (gSpeciesInfo[species].genderRatio)

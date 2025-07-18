@@ -27,6 +27,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
+#include "timer.h"
 #include "trainer_pokemon_sprites.h"
 #include "trig.h"
 #include "util.h"
@@ -3205,6 +3206,7 @@ static void SpriteCB_NPCFlyOut(struct Sprite *sprite)
 u8 FldEff_UseFly(void)
 {
     u8 taskId = CreateTask(Task_FlyOut, 254);
+    HideTimer();
     gTasks[taskId].tMonId = gFieldEffectArguments[0];
     return 0;
 }

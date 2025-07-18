@@ -9,6 +9,7 @@
 #include "party_menu.h"
 #include "script.h"
 #include "sprite.h"
+#include "timer.h"
 #include "constants/field_effects.h"
 
 // static functions
@@ -20,6 +21,7 @@ bool8 SetUpFieldMove_Dig(void)
 {
     if (CanUseDigOrEscapeRopeOnCurMap() == TRUE)
     {
+        HideTimer();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_Dig;
         return TRUE;

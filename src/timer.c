@@ -8,15 +8,17 @@
 #include "palette.h"
 #include "digit_obj_util.h"
 #include "sound.h"
+#include "script.h"
 #include "sprite.h"
 #include "start_menu.h"
 #include "task.h"
 #include "constants/songs.h"
 
 #define MAX_TIME (6000) // Tiempo máximo en seg. puede llegar hasta 100:00:00 (100 minutos o 1:40 horas)
-#define TAG_TIMER_DIGITS  4
 
-#define tId                 data[0]
+#define TAG_TIMER_DIGITS    5000
+
+#define tDelay              data[0]
 #define tState              data[1]
 #define tSecondsFrac        data[2]
 #define tSecondsInt         data[3]
@@ -126,7 +128,7 @@ void InitTimer(void)
     }
     
     taskId = CreateTask(ShowTimer, 3);
-    gTasks[taskId].tId = taskId;
+    gTasks[taskId].tDelay = 20;
     gTasks[taskId].tState = 0;
     gTasks[taskId].tSpriteId_0 = 0xFF;
     gTasks[taskId].tSpriteId_1 = 0xFF;
@@ -171,16 +173,16 @@ void InitTimer(void)
 void TimerMainTask(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    
+    bool8 isStartMenuOpen = (FindTaskIdByFunc(Task_ShowStartMenu) != TASK_NONE);
+
     if (task->tUseAutomaticPause)
     {
         if (ArePlayerFieldControlsLocked() == TRUE)
         {
-            if(FindTaskIdByFunc(Task_ShowStartMenu) != TASK_NONE)
+            if (isStartMenuOpen)
                 HideTimerSprites(taskId, TRUE);
             return;
         }
-        
     }
     else
     {
@@ -188,12 +190,13 @@ void TimerMainTask(u8 taskId)
         {
             return;
         }
-        if(FindTaskIdByFunc(Task_ShowStartMenu) != TASK_NONE)
+        if (isStartMenuOpen)
         {
             HideTimerSprites(taskId, TRUE);
             return;
-        }        
+        }
     }
+
     UpdateTimer(taskId);
     HideTimerSprites(taskId, FALSE);
 }
@@ -202,6 +205,12 @@ static void ShowTimer(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     
+    if (task->tDelay != 0)
+    {
+        task->tDelay--;
+        return;
+    }
+
     switch (task->tState)
     {
     case 0:
@@ -255,6 +264,20 @@ static void UpdateTimer(u8 taskId)
     PrintTimer(taskId);
 }
 
+void HideTimer(void)
+{
+    u8 taskId = FindTaskIdByFunc(TimerMainTask);
+
+    if (taskId == TASK_NONE)
+        taskId = FindTaskIdByFunc(ShowTimer);
+
+    if (taskId != TASK_NONE)
+    {
+        DestroyTimeSprites(taskId);
+        DestroyTask(taskId);
+    }
+}
+
 void DestroyTimer(void)
 {
     u8 taskId = FindTaskIdByFunc(TimerMainTask);
@@ -301,20 +324,10 @@ static void PrintTimer(u8 taskId)
 static void DestroyTimeSprites(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    
-    if (task->tSpriteId_0 != 0xFF)
-    {
-        DestroySprite(&gSprites[task->tSpriteId_0]);
-        task->tSpriteId_0 = 0xFF;
-    }
-    if (task->tSpriteId_1 != 0xFF)
-    {
-        DestroySprite(&gSprites[task->tSpriteId_1]);
-        task->tSpriteId_1 = 0xFF;
-    }
-    
-    FreeSpriteTilesByTag(TAG_TIMER_DIGITS);
-    FreeSpritePaletteByTag(TAG_TIMER_DIGITS);
+
+    DestroySpriteAndFreeResources(&gSprites[task->tSpriteId_0]);
+    DestroySpriteAndFreeResources(&gSprites[task->tSpriteId_1]);
+
     DigitObjUtil_DeletePrinter(2);
     DigitObjUtil_DeletePrinter(1);
     DigitObjUtil_DeletePrinter(0);
@@ -366,7 +379,7 @@ static void CreateTimeSprites(u8 taskId)
     HideTimerSprites(taskId, TRUE);
 }
 
-#undef tId
+#undef tDelay
 #undef tState
 #undef tSecondsFrac
 #undef tSecondsInt

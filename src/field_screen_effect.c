@@ -32,6 +32,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
+#include "timer.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/heal_locations.h"
@@ -500,6 +501,7 @@ static bool32 WaitForWeatherFadeIn(void)
 
 void DoWarp(void)
 {
+    HideTimer();
     LockPlayerFieldControls();
     TryFadeOutOldMapMusic();
     WarpFadeOutScreen();
@@ -511,6 +513,7 @@ void DoWarp(void)
 
 void DoDiveWarp(void)
 {
+    HideTimer();
     LockPlayerFieldControls();
     TryFadeOutOldMapMusic();
     WarpFadeOutScreen();
@@ -521,6 +524,7 @@ void DoDiveWarp(void)
 
 void DoWhiteFadeWarp(void)
 {
+    HideTimer();
     LockPlayerFieldControls();
     TryFadeOutOldMapMusic();
     FadeScreen(FADE_TO_WHITE, 8);
@@ -531,6 +535,7 @@ void DoWhiteFadeWarp(void)
 
 void DoDoorWarp(void)
 {
+    HideTimer();
     LockPlayerFieldControls();
     gFieldCallback = FieldCB_DefaultWarpExit;
     CreateTask(Task_DoDoorWarp, 10);

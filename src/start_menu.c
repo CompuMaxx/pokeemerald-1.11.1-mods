@@ -41,6 +41,7 @@
 #include "task.h"
 #include "text.h"
 #include "text_window.h"
+#include "timer.h"
 #include "trainer_card.h"
 #include "window.h"
 #include "union_room.h"
@@ -674,6 +675,7 @@ bool8 StartMenuPokedexCallback(void)
     if (!gPaletteFade.active)
     {
         IncrementGameStat(GAME_STAT_CHECKED_POKEDEX);
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -689,6 +691,7 @@ static bool8 StartMenuPokemonCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -704,6 +707,7 @@ static bool8 StartMenuBagCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -719,6 +723,7 @@ static bool8 StartMenuPokeNavCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -734,6 +739,7 @@ static bool8 StartMenuPlayerNameCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -765,6 +771,7 @@ static bool8 StartMenuOptionCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -819,6 +826,7 @@ static bool8 StartMenuLinkModePlayerNameCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         CleanupOverworldWindowsAndTilemaps();
         ShowTrainerCardInLink(gLocalLinkPlayerId, CB2_ReturnToFieldWithOpenMenu);
@@ -849,6 +857,7 @@ static bool8 StartMenuBattlePyramidBagCallback(void)
 {
     if (!gPaletteFade.active)
     {
+        HideTimer();
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();

@@ -5,6 +5,7 @@
 #include "party_menu.h"
 #include "overworld.h"
 #include "task.h"
+#include "timer.h"
 #include "constants/field_effects.h"
 
 static void FieldCallback_Teleport(void);
@@ -14,6 +15,7 @@ bool8 SetUpFieldMove_Teleport(void)
 {
     if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE)
     {
+        HideTimer();
         gFieldCallback2 = FieldCallback_PrepareFadeInForTeleport;
         gPostMenuFieldCallback = FieldCallback_Teleport;
         return TRUE;
